@@ -67,7 +67,6 @@ public class Cube : MonoBehaviour {
     #region SetState
     public void SetStatePop()
     {
-        //startPosition = transform.position;
         targetPosition = transform.position + Vector3.up;
 
         startScale = transform.localScale - Vector3.one * 0.5f;
@@ -79,7 +78,6 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine = new FunctionCallback(SetStateWalk);
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
-        //ActionCoroutine = new StateCoroutine(PopCoroutine);
         currentState = STATE.pop;
     }
 
@@ -91,49 +89,30 @@ public class Cube : MonoBehaviour {
     
     void SetStateFall()
     {
-        //startPosition = transform.position;
         targetPosition = transform.position - Vector3.up;
 
         currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
 
         CallbackCoroutine = () => { };
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
-
-        //ActionCoroutine = new StateCoroutine(FallCoroutine);
+        
         currentState = STATE.fall;
     }
 
-    //void SetStateCollisionWithWall()
-    //{
-    //    startPosition = transform.position;
-    //    targetPosition = startPosition + Vector3.up;
-    //    currentAnimationCurvePosition = Config.manager.CubeCollisionWithWallAnimationCurve;
-        
-    //    CallbackCoroutine = new FunctionCallback(SetStateWalk);
-
-    //    ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
-
-    //    //ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
-    //    currentState = STATE.collisionWithWall;
-    //}
-
     void SetStateActionStop()
     {
-        //startPosition = transform.position;
         targetPosition = transform.position + Vector3.up;
         currentAnimationCurvePosition = Config.manager.CubeCollisionWithWallAnimationCurve;
 
         CallbackCoroutine = new FunctionCallback(SetStateWalk);
 
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
-
-        //ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
+        
         currentState = STATE.actionStop;
     }
 
     void SetStateActionConveyor()
     {
-        //startPosition = transform.position;
         targetPosition = transform.position + directionConveyor;
 
         currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
@@ -141,16 +120,12 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine = new FunctionCallback(SetStateWalk);
 
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
-
-        print("SetStateActionConveyor");
-        //ActionCoroutine = new StateCoroutine(ActionConveyorCoroutine);
+        
         currentState = STATE.actionConveyor;
     }
 
     void SetStateDepop()
     {
-
-        //startPosition = transform.position;
         targetPosition = transform.position + Vector3.up;
 
         startScale = transform.localScale - Vector3.one * 0.5f;
@@ -162,14 +137,12 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine = new FunctionCallback(CubeArrived);
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
-
-        //ActionCoroutine = new StateCoroutine(DisapearCoroutine);
+        
         currentState = STATE.depop;
     }
 
     void SetStateActionTeleport()
     {
-        //startPosition = transform.position;
         targetPosition = transform.position + Vector3.up;
 
         startScale = transform.localScale - Vector3.one * 0.5f;
@@ -181,7 +154,6 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine = new FunctionCallback(CubeTeleport);
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
-        //ActionCoroutine = new StateCoroutine(DisapearCoroutine);
         currentState = STATE.actionTeleport;
     }
     #endregion
@@ -201,7 +173,7 @@ public class Cube : MonoBehaviour {
         StartCoroutine(ActionCoroutine());
     }
 
-    #region StateCoroutine
+    #region Coroutine
 
 
     IEnumerator ChangePositionAndScaleCoroutine()
@@ -231,79 +203,6 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine();
     }
 
-    //IEnumerator PopCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition + Vector3.up;
-
-    //    Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
-    //    Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(Metronome.manager.RatioTic));
-    //        transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(Metronome.manager.RatioTic));
-    //        yield return null;
-    //    }
-
-    //    SetStateWalk();
-    //}
-
-
-    //IEnumerator DisapearCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition + Vector3.up;
-
-    //    Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
-    //    Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(1 - Metronome.manager.RatioTic));
-    //        transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(1 - Metronome.manager.RatioTic));
-    //        yield return null;
-    //    }
-
-    //    if (currentState == STATE.depop) // FIXME
-    //    {
-    //        SendMessageUpwards("CubeArrived", this);
-    //    }
-    //    else if (currentState == STATE.actionTeleport)
-    //    {
-    //        SendMessageUpwards("CubeTeleport", this);
-    //    }
-
-    //}
-
-
-    //IEnumerator AnimationStopCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition + Vector3.up;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CubeCollisionWithWallAnimationCurve.Evaluate(Metronome.manager.RatioTic));
-    //        yield return null;
-    //    }
-
-    //    SetStateWalk();
-    //}
-
-
-    //IEnumerator FallCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition - Vector3.up;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
-    //        yield return null;
-    //    }
-    //}
-
 
     IEnumerator MovementCoroutine()
     {
@@ -331,38 +230,6 @@ public class Cube : MonoBehaviour {
         
         RoundPositionAndRotation();
     }
-    
-    //IEnumerator ActionConveyorCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition + directionConveyor;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
-    //        yield return null;
-    //    }
-
-    //    SetStateWalk();
-    //}
-
-    //IEnumerator ActionStopCoroutine()
-    //{
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 targetPosition = startPosition + Vector3.up;
-
-    //    Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
-    //    Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
-
-    //    while (Metronome.manager.RatioTic < 1)
-    //    {
-    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(Metronome.manager.RatioTic));
-    //        transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(Metronome.manager.RatioTic));
-    //        yield return null;
-    //    }
-
-    //    SetStateWalk();
-    //}
 
     #endregion
 
@@ -410,44 +277,6 @@ public class Cube : MonoBehaviour {
 
     //}
 
-    #region Collision
-    //void CheckCollision()
-    //{
-    //    if (CheckCollisionWithActions())
-    //    {
-    //        if (CheckCollisionWithWall())
-    //        {
-    //            OnCollisionWithWall();
-    //        }
-    //        return;
-    //    }
-
-    //    if (CheckCollisionWithTarget())
-    //    {
-    //        SetStateDepop();
-    //        return;
-    //    }
-
-    //    if (CheckCollisionWithWall())
-    //    {
-    //        OnCollisionWithWall();
-    //        return;
-    //        //print("CUBE - COLLISION AVEC MUR");
-    //    }
-
-    //    if (CheckCollisionWithLevelElement())
-    //    {
-    //        SetStateWalk();
-    //        return;
-    //        //print("CUBE - PAS DE SOL");
-    //    }
-    //    else
-    //    {
-    //        SetStateFall();
-    //        return;
-    //    }
-    //}
-
     void CubeArrived()
     {
         SendMessageUpwards("CubeArrived", this);
@@ -457,6 +286,8 @@ public class Cube : MonoBehaviour {
     {
         SendMessageUpwards("CubeTeleport", this);
     }
+    #region Collision
+
 
     void OnCollisionWithWall ()
     {
@@ -493,12 +324,6 @@ public class Cube : MonoBehaviour {
                 return;
                 //print("CUBE - COLLISION AVEC MUR");
             }
-
-            //if (CheckCollisionWithLevelElement(hits[i]))
-            //{
-            //    SetStateWalk();
-            //    return;
-            //}
         }
 
         if (hits.Length == 0 || (hits.Length == 1 && hits[0].collider.CompareTag("DeathZone")))
@@ -560,82 +385,6 @@ public class Cube : MonoBehaviour {
 
         return false;
     }
-
-    //bool CheckCollisionWithLevelElement(RaycastHit hit)
-    //{
-    //    return hit.collider.CompareTag("LevelElement");
-    //}
-
-    //bool CheckCollisionWithActions()
-    //{
-    //    RaycastHit[] hits = Physics.RaycastAll(transform.position, -Vector3.up, 1);
-    //    for (int i = 0; i < hits.Length; i++)
-    //    {
-    //        LevelAction levelAction = hits[i].collider.GetComponent<LevelAction>();
-    //        if (levelAction != null)
-    //        {
-    //            if (currentAction != levelAction)
-    //            {
-    //                currentAction = levelAction;
-    //                if (levelAction is LevelActionArrow)
-    //                {
-    //                    direction = hits[i].collider.transform.forward;
-    //                }
-    //                else if (levelAction is LevelActionStop)
-    //                {
-    //                    SetStateActionStop();
-    //                }
-    //                else if (levelAction is LevelActionConveyors)
-    //                {
-    //                    directionConveyor = hits[i].collider.transform.forward;
-    //                    SetStateActionConveyor();
-    //                }
-    //            }
-    //            else
-    //            {
-    //                currentAction = null;
-    //            }
-    //            return true;
-    //        }
-    //    }
-
-    //    currentAction = null;
-    //    return false;
-    //}
-
-    //bool CheckCollisionWithTarget()
-    //{
-    //    RaycastHit[] hits = Physics.RaycastAll(transform.position, -Vector3.up, 1);
-    //    for (int i = 0; i < hits.Length; i++)
-    //    {
-    //        Target target = hits[i].collider.GetComponent<Target>();
-    //        if (target != null)
-    //        {
-    //            if (target.color == color)
-    //            {
-    //                return true;
-    //            }
-    //        }
-    //    }
-
-    //    return false;
-    //}
-
-    //bool CheckCollisionWithLevelElement()
-    //{
-    //    RaycastHit[] hits = Physics.RaycastAll(transform.position, -Vector3.up, 1);
-
-    //    for (int i = 0; i < hits.Length; i++)
-    //    {
-    //        if (hits[i].collider.CompareTag("LevelElement"))
-    //        {
-    //            return true;
-    //        }
-
-    //    }
-
-    //    return false;
-    //}
 
 
     bool CheckCollisionWithWall()
