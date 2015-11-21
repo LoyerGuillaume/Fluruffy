@@ -11,7 +11,18 @@ public class Config : MonoBehaviour {
     {
         manager = this;
     }
-    
+
+
+    [SerializeField]
+    private AnimationCurve linearAnimationCurve;
+
+    public AnimationCurve LinearAnimationCurve
+    {
+        get
+        {
+            return linearAnimationCurve;
+        }
+    }
 
     [SerializeField]
     private AnimationCurve cubeCollisionWithWallAnimationCurve;
@@ -44,6 +55,17 @@ public class Config : MonoBehaviour {
         get
         {
             return curvePopScaleCube;
+        }
+    }
+
+    [SerializeField]
+    private AnimationCurve curveDesapearScaleCube;
+
+    public AnimationCurve CurveDesapearScaleCube
+    {
+        get
+        {
+            return curveDesapearScaleCube;
         }
     }
 }

@@ -8,6 +8,16 @@ public class Cube : MonoBehaviour {
     private Vector3 direction;
     private Vector3 directionConveyor;
 
+
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private Vector3 startScale;
+    private Vector3 targetScale;
+    private AnimationCurve currentAnimationCurvePosition;
+    private AnimationCurve currentAnimationCurveScale;
+    private delegate void FunctionCallback();
+    private FunctionCallback CallbackCoroutine;
+
     private string currentTeleportColor; //FIXME
 
     public string CurrentTeleportColor
@@ -52,11 +62,24 @@ public class Cube : MonoBehaviour {
 
         StartCoroutine(ActionCoroutine());
     }
+    
 
     #region SetState
     public void SetStatePop()
     {
-        ActionCoroutine = new StateCoroutine(PopCoroutine);
+        //startPosition = transform.position;
+        targetPosition = transform.position + Vector3.up;
+
+        startScale = transform.localScale - Vector3.one * 0.5f;
+        targetScale = transform.localScale + Vector3.one * 0.5f;
+
+        currentAnimationCurvePosition = Config.manager.CurvePopPositionCube;
+        currentAnimationCurveScale = Config.manager.CurvePopScaleCube;
+
+        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
+        //ActionCoroutine = new StateCoroutine(PopCoroutine);
         currentState = STATE.pop;
     }
 
@@ -68,39 +91,97 @@ public class Cube : MonoBehaviour {
     
     void SetStateFall()
     {
-        ActionCoroutine = new StateCoroutine(FallCoroutine);
+        //startPosition = transform.position;
+        targetPosition = transform.position - Vector3.up;
+
+        currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
+
+        CallbackCoroutine = () => { };
+        ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+
+        //ActionCoroutine = new StateCoroutine(FallCoroutine);
         currentState = STATE.fall;
     }
 
-    void SetStateCollisionWithWall()
-    {
-        ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
-        currentState = STATE.collisionWithWall;
-    }
+    //void SetStateCollisionWithWall()
+    //{
+    //    startPosition = transform.position;
+    //    targetPosition = startPosition + Vector3.up;
+    //    currentAnimationCurvePosition = Config.manager.CubeCollisionWithWallAnimationCurve;
+        
+    //    CallbackCoroutine = new FunctionCallback(SetStateWalk);
+
+    //    ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+
+    //    //ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
+    //    currentState = STATE.collisionWithWall;
+    //}
 
     void SetStateActionStop()
     {
-        print("SetStateActionStop");
-        ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
+        //startPosition = transform.position;
+        targetPosition = transform.position + Vector3.up;
+        currentAnimationCurvePosition = Config.manager.CubeCollisionWithWallAnimationCurve;
+
+        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+
+        //ActionCoroutine = new StateCoroutine(AnimationStopCoroutine);
         currentState = STATE.actionStop;
     }
 
     void SetStateActionConveyor()
     {
+        //startPosition = transform.position;
+        targetPosition = transform.position + directionConveyor;
+
+        currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
+
+        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+
         print("SetStateActionConveyor");
-        ActionCoroutine = new StateCoroutine(ActionConveyorCoroutine);
+        //ActionCoroutine = new StateCoroutine(ActionConveyorCoroutine);
         currentState = STATE.actionConveyor;
     }
 
     void SetStateDepop()
     {
-        ActionCoroutine = new StateCoroutine(DisapearCoroutine);
+
+        //startPosition = transform.position;
+        targetPosition = transform.position + Vector3.up;
+
+        startScale = transform.localScale - Vector3.one * 0.5f;
+        targetScale = transform.localScale + Vector3.one * 0.5f;
+
+        currentAnimationCurvePosition = Config.manager.CurvePopPositionCube;
+        currentAnimationCurveScale = Config.manager.CurveDesapearScaleCube;
+
+        CallbackCoroutine = new FunctionCallback(CubeArrived);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
+
+        //ActionCoroutine = new StateCoroutine(DisapearCoroutine);
         currentState = STATE.depop;
     }
 
     void SetStateActionTeleport()
     {
-        ActionCoroutine = new StateCoroutine(DisapearCoroutine);
+        //startPosition = transform.position;
+        targetPosition = transform.position + Vector3.up;
+
+        startScale = transform.localScale - Vector3.one * 0.5f;
+        targetScale = transform.localScale + Vector3.one * 0.5f;
+
+        currentAnimationCurvePosition = Config.manager.CurvePopPositionCube;
+        currentAnimationCurveScale = Config.manager.CurveDesapearScaleCube;
+
+        CallbackCoroutine = new FunctionCallback(CubeTeleport);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
+        //ActionCoroutine = new StateCoroutine(DisapearCoroutine);
         currentState = STATE.actionTeleport;
     }
     #endregion
@@ -122,79 +203,106 @@ public class Cube : MonoBehaviour {
 
     #region StateCoroutine
 
-    IEnumerator PopCoroutine()
-    {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + Vector3.up;
 
-        Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
-        Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
+    IEnumerator ChangePositionAndScaleCoroutine()
+    {
+        startPosition = transform.position;
 
         while (Metronome.manager.RatioTic < 1)
         {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(Metronome.manager.RatioTic));
-            transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(Metronome.manager.RatioTic));
+            transform.position = Vector3.Lerp(startPosition, targetPosition, currentAnimationCurvePosition.Evaluate(Metronome.manager.RatioTic));
+            transform.localScale = Vector3.Lerp(startScale, targetScale, currentAnimationCurveScale.Evaluate(Metronome.manager.RatioTic));
             yield return null;
         }
 
-        SetStateWalk();
+        CallbackCoroutine();
     }
 
-
-    IEnumerator DisapearCoroutine()
+    IEnumerator ChangePositionCoroutine()
     {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + Vector3.up;
-
-        Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
-        Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
+        startPosition = transform.position;
 
         while (Metronome.manager.RatioTic < 1)
         {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(1 - Metronome.manager.RatioTic));
-            transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(1 - Metronome.manager.RatioTic));
+            transform.position = Vector3.Lerp(startPosition, targetPosition, currentAnimationCurvePosition.Evaluate(Metronome.manager.RatioTic));
             yield return null;
         }
 
-        if (currentState == STATE.depop) // FIXME
-        {
-            SendMessageUpwards("CubeArrived", this);
-        }
-        else if (currentState == STATE.actionTeleport)
-        {
-            SendMessageUpwards("CubeTeleport", this);
-        }
-
+        CallbackCoroutine();
     }
 
+    //IEnumerator PopCoroutine()
+    //{
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 targetPosition = startPosition + Vector3.up;
+
+    //    Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
+    //    Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
+
+    //    while (Metronome.manager.RatioTic < 1)
+    //    {
+    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(Metronome.manager.RatioTic));
+    //        transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(Metronome.manager.RatioTic));
+    //        yield return null;
+    //    }
+
+    //    SetStateWalk();
+    //}
 
 
-    IEnumerator AnimationStopCoroutine()
-    {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + Vector3.up;
+    //IEnumerator DisapearCoroutine()
+    //{
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 targetPosition = startPosition + Vector3.up;
 
-        while (Metronome.manager.RatioTic < 1)
-        {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CubeCollisionWithWallAnimationCurve.Evaluate(Metronome.manager.RatioTic));
-            yield return null;
-        }
+    //    Vector3 startScale = transform.localScale - Vector3.one * 0.5f;
+    //    Vector3 targetScale = transform.localScale + Vector3.one * 0.5f;
 
-        SetStateWalk();
-    }
+    //    while (Metronome.manager.RatioTic < 1)
+    //    {
+    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CurvePopPositionCube.Evaluate(1 - Metronome.manager.RatioTic));
+    //        transform.localScale = Vector3.Lerp(startScale, targetScale, Config.manager.CurvePopScaleCube.Evaluate(1 - Metronome.manager.RatioTic));
+    //        yield return null;
+    //    }
+
+    //    if (currentState == STATE.depop) // FIXME
+    //    {
+    //        SendMessageUpwards("CubeArrived", this);
+    //    }
+    //    else if (currentState == STATE.actionTeleport)
+    //    {
+    //        SendMessageUpwards("CubeTeleport", this);
+    //    }
+
+    //}
 
 
-    IEnumerator FallCoroutine()
-    {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition - Vector3.up;
+    //IEnumerator AnimationStopCoroutine()
+    //{
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 targetPosition = startPosition + Vector3.up;
 
-        while (Metronome.manager.RatioTic < 1)
-        {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
-            yield return null;
-        }
-    }
+    //    while (Metronome.manager.RatioTic < 1)
+    //    {
+    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Config.manager.CubeCollisionWithWallAnimationCurve.Evaluate(Metronome.manager.RatioTic));
+    //        yield return null;
+    //    }
+
+    //    SetStateWalk();
+    //}
+
+
+    //IEnumerator FallCoroutine()
+    //{
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 targetPosition = startPosition - Vector3.up;
+
+    //    while (Metronome.manager.RatioTic < 1)
+    //    {
+    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
+    //        yield return null;
+    //    }
+    //}
 
 
     IEnumerator MovementCoroutine()
@@ -224,19 +332,19 @@ public class Cube : MonoBehaviour {
         RoundPositionAndRotation();
     }
     
-    IEnumerator ActionConveyorCoroutine()
-    {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + directionConveyor;
+    //IEnumerator ActionConveyorCoroutine()
+    //{
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 targetPosition = startPosition + directionConveyor;
 
-        while (Metronome.manager.RatioTic < 1)
-        {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
-            yield return null;
-        }
+    //    while (Metronome.manager.RatioTic < 1)
+    //    {
+    //        transform.position = Vector3.Lerp(startPosition, targetPosition, Metronome.manager.RatioTic);
+    //        yield return null;
+    //    }
 
-        SetStateWalk();
-    }
+    //    SetStateWalk();
+    //}
 
     //IEnumerator ActionStopCoroutine()
     //{
@@ -340,9 +448,19 @@ public class Cube : MonoBehaviour {
     //    }
     //}
 
+    void CubeArrived()
+    {
+        SendMessageUpwards("CubeArrived", this);
+    }
+
+    void CubeTeleport()
+    {
+        SendMessageUpwards("CubeTeleport", this);
+    }
+
     void OnCollisionWithWall ()
     {
-        SetStateCollisionWithWall();
+        SetStateActionStop();
         direction = Vector3.Cross(Vector3.up, direction);
     }
 
@@ -383,7 +501,7 @@ public class Cube : MonoBehaviour {
             //}
         }
 
-        if (hits.Length == 0)
+        if (hits.Length == 0 || (hits.Length == 1 && hits[0].collider.CompareTag("DeathZone")))
         {
             SetStateFall();
         }
@@ -391,7 +509,6 @@ public class Cube : MonoBehaviour {
         return;
 
     }
-
 
     bool CheckCollisionWithAction(RaycastHit hit)
     {
