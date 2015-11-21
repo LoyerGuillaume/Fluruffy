@@ -19,11 +19,11 @@ public class LevelActionTeleport : LevelAction {
         //}
     }
 
-    public string color; 
+    //public string color; 
 
 
     void Start()
     {
-        SendMessageUpwards("AddTeleport", this);
+        //SendMessageUpwards("AddTeleport", this);
     }
 }
