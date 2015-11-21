@@ -411,7 +411,7 @@ public class Cube : MonoBehaviour {
         if (currentState != STATE.pop && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
         {
             print("CUBE - GAME OVER");
-            SendMessageUpwards("CubeCollidedWithDeathZone");
+            SendMessageUpwards("CubeCollidedWithDeathZone", this);
         }
     }
 

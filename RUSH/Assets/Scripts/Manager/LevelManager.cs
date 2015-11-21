@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class LevelManager : BaseManager<LevelManager>
 {
     private const String PATH_LEVEL = "Levels/";
+    private const String PATH_VISUAL = "Visual/";
 
     private GameObject currentLevel;
     
@@ -69,9 +70,13 @@ public class LevelManager : BaseManager<LevelManager>
         print("LEVELMANAGER : PLAY");
     }
 
-    public void CubeCollidedWithDeathZone()
+    public void CubeCollidedWithDeathZone(Cube cube)
     {
         print("LEVELMANAGER - GAME OVER");
+        GameObject exclamation = Instantiate(Resources.Load(PATH_VISUAL + "VisualExclamation")) as GameObject;
+
+        exclamation.GetComponent<VisualExclamation>().InitializePosition(cube.transform.position + Vector3.up);
+
         GameManager.manager.GameOver();
     }
 
