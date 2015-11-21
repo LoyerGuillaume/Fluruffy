@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\LevelAction\LevelAction.cs" />
     <Compile Include="Assets\Scripts\LevelAction\LevelActionArrow.cs" />
     <Compile Include="Assets\Scripts\LevelAction\LevelActionConveyors.cs" />
+    <Compile Include="Assets\Scripts\LevelAction\LevelActionSplit.cs" />
     <Compile Include="Assets\Scripts\LevelAction\LevelActionStop.cs" />
     <Compile Include="Assets\Scripts\LevelAction\LevelActionTeleport.cs" />
     <Compile Include="Assets\Scripts\Manager\BaseManager.cs" />

@@ -364,11 +364,15 @@ public class Cube : MonoBehaviour {
                 else if (levelAction is LevelActionTeleport)
                 {
                     LevelActionTeleport levelActionTeleport = (LevelActionTeleport)levelAction;
-                    //currentTeleportColor = levelActionTeleport.color;
                     destinationTeleport = levelActionTeleport.DestinationTeleport.transform.position;
                     currentAction = levelActionTeleport.DestinationTeleport.GetComponent<LevelAction>();
-                    print("CURRENT ACTION : " + currentAction);
                     SetStateActionTeleport();
+                }
+                else if (levelAction is LevelActionSplit)
+                {
+                    LevelActionSplit levelActionSplit = (LevelActionSplit)levelAction;
+                    direction = (levelActionSplit.SplitTic ? -1 : 1) * Vector3.Cross(Vector3.up, direction);
+                    levelActionSplit.ChangeTic();
                 }
             }
             return true;
