@@ -13,7 +13,7 @@ public class LevelManager : BaseManager<LevelManager>
     private int numberOfCubeArrived;
     private int numberOfCubeBySpawn;
     
-    private List<LevelActionTeleport> teleports;
+    //private List<LevelActionTeleport> teleports;
 
     #region Events
     //public delegate void GameStepNotification(params object[] prms);
@@ -61,7 +61,7 @@ public class LevelManager : BaseManager<LevelManager>
         numberOfCubeBySpawn = currentLevel.GetComponent<Level>().NumberOfSpawnCube;
         BroadcastMessage("SetNumberOfSpawnCube", numberOfCubeBySpawn);
 
-        teleports = new List<LevelActionTeleport>();
+        //teleports = new List<LevelActionTeleport>();
     }
 
     protected override void Play(params object[] prms)
@@ -86,11 +86,11 @@ public class LevelManager : BaseManager<LevelManager>
         numberTotalOfCubeShouldArrived += numberOfCubeBySpawn;
     }
 
-    private void AddTeleport(LevelActionTeleport teleport)
-    {
-        print("TELEPORT " + teleport);
-        teleports.Add(teleport);
-    }
+    //private void AddTeleport(LevelActionTeleport teleport)
+    //{
+    //    print("TELEPORT " + teleport);
+    //    teleports.Add(teleport);
+    //}
 
     private void CubeArrived(Cube cube)
     {
@@ -104,18 +104,18 @@ public class LevelManager : BaseManager<LevelManager>
         }
     }
 
-    private void CubeTeleport(Cube cube)
-    {
-        foreach(LevelActionTeleport teleport in teleports)
-        {
-            if (teleport.color == cube.CurrentTeleportColor && !teleport.doTeleportCube)
-            {
-                cube.transform.position = teleport.transform.position + Vector3.up;
-                cube.SetStatePop();
-                teleport.doTeleportCube = false;
-                return;
-            }
-        }
-    }
+    //private void CubeTeleport(Cube cube)
+    //{
+    //    foreach(LevelActionTeleport teleport in teleports)
+    //    {
+    //        if (teleport.color == cube.CurrentTeleportColor && !teleport.doTeleportCube)
+    //        {
+    //            cube.transform.position = teleport.transform.position + Vector3.up;
+    //            cube.SetStatePop();
+    //            teleport.doTeleportCube = false;
+    //            return;
+    //        }
+    //    }
+    //}
 
 }

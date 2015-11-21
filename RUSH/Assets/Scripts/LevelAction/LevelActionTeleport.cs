@@ -3,7 +3,21 @@ using System.Collections;
 
 public class LevelActionTeleport : LevelAction {
 
-    public bool doTeleportCube = false;
+
+    [SerializeField]
+    private GameObject destinationTeleport;
+
+    public GameObject DestinationTeleport
+    {
+        get
+        {
+            return destinationTeleport;
+        }
+        //set
+        //{
+        //    destinationTeleport = value;
+        //}
+    }
 
     public string color; 
 

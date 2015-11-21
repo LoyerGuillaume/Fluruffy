@@ -7,7 +7,7 @@ public class Cube : MonoBehaviour {
     private float angle = 90f;
     private Vector3 direction;
     private Vector3 directionConveyor;
-
+    private Vector3 destinationTeleport;
 
     private Vector3 startPosition;
     private Vector3 targetPosition;
@@ -18,15 +18,16 @@ public class Cube : MonoBehaviour {
     private delegate void FunctionCallback();
     private FunctionCallback CallbackCoroutine;
 
-    private string currentTeleportColor; //FIXME
+    //private string currentTeleportColor; //FIXME
 
-    public string CurrentTeleportColor
-    {
-        get
-        {
-            return currentTeleportColor;
-        }
-    }
+    //public string CurrentTeleportColor
+    //{
+    //    get
+    //    {
+    //        return currentTeleportColor;
+    //    }
+    //}
+
 
     private LevelAction currentAction;
     private bool collisionWithAction;
@@ -284,7 +285,10 @@ public class Cube : MonoBehaviour {
 
     void CubeTeleport()
     {
-        SendMessageUpwards("CubeTeleport", this);
+        transform.localScale = Vector3.one; //Only if default scale is 1, 1, 1
+        transform.position = destinationTeleport + Vector3.up;
+        SetStatePop();
+        //SendMessageUpwards("CubeTeleport", this);
     }
     #region Collision
 
@@ -360,8 +364,10 @@ public class Cube : MonoBehaviour {
                 else if (levelAction is LevelActionTeleport)
                 {
                     LevelActionTeleport levelActionTeleport = (LevelActionTeleport)levelAction;
-                    currentTeleportColor = levelActionTeleport.color;
-                    levelActionTeleport.doTeleportCube = true;
+                    //currentTeleportColor = levelActionTeleport.color;
+                    destinationTeleport = levelActionTeleport.DestinationTeleport.transform.position;
+                    currentAction = levelActionTeleport.DestinationTeleport.GetComponent<LevelAction>();
+                    print("CURRENT ACTION : " + currentAction);
                     SetStateActionTeleport();
                 }
             }
