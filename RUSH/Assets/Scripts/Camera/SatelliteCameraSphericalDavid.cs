@@ -2,12 +2,26 @@
 using System.Collections;
 using MathTools;
 
-public class SatelliteCameraSphericalDavid : MonoBehaviour
+public class SatelliteCameraSphericalDavid : BaseManager<SatelliteCameraSphericalDavid>
 {
     public CoordSystem.Spherical minCoord, maxCoord, currCoord, speedCoord;
     private CoordSystem.Spherical targetCoord;
     public Transform target;
     public float kLerpPos;
+
+    private bool isActive = false;
+
+    protected override IEnumerator CoroutineStart()
+    {
+        IsReady = true;
+        yield return null;
+    }
+
+
+    protected override void Play(params object[] prms)
+    {
+        print("LEVELMANAGER : PLAY");
+    }
 
     void Start()
     {

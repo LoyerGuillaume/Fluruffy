@@ -78,7 +78,7 @@ using UnityEngine;
 using MathTools;
 using System.Collections;
 
-public class SatelliteCameraSpherical : MonoBehaviour
+public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
 {
 
     public float minDist;
@@ -108,8 +108,16 @@ public class SatelliteCameraSpherical : MonoBehaviour
 
     Vector3 targetPos;
 
+    private bool isActive = false;
+
+    protected override IEnumerator CoroutineStart()
+    {
+        IsReady = true;
+        yield return null;
+    }
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         distance = (minDist + maxDist) / 2f;
         targetDistance = distance;
@@ -124,10 +132,35 @@ public class SatelliteCameraSpherical : MonoBehaviour
         maxElevation *= Mathf.PI / 180f;
     }
 
+
+    protected override void Play(params object[] prms)
+    {
+        print("CAMERA : PLAY");
+        isActive = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (isActive)
+        {
+            Movement();
+        }
 
+
+        transform.position = CoordSystem.SphericalToCartesian(new CoordSystem.Spherical(distance, azimut, elevation));
+
+        transform.LookAt(target);
+
+        //Vector3 dirH = new Vector3(Mathf.Cos(azimut), 0, Mathf.Sin(azimut));
+
+        //Vector3 newPos = target.position + dirH * distance * Mathf.Cos(elevation) + Vector3.up * distance * Mathf.Sin(elevation);
+        //transform.position = newPos;//Vector3.Lerp(transform.position,newPos,Time.deltaTime*kLerpPos);
+        //transform.LookAt(target);
+    }
+
+    private void Movement ()
+    {
         if (Input.GetKey(KeyCode.Q))
             targetAzimut -= azimutSpeed * Time.deltaTime;
         else if (Input.GetKey(KeyCode.D))
@@ -146,15 +179,7 @@ public class SatelliteCameraSpherical : MonoBehaviour
 
 
 
-        transform.position = CoordSystem.SphericalToCartesian(new CoordSystem.Spherical(distance, azimut, elevation));
 
-        transform.LookAt(target);
-
-        //Vector3 dirH = new Vector3(Mathf.Cos(azimut), 0, Mathf.Sin(azimut));
-
-        //Vector3 newPos = target.position + dirH * distance * Mathf.Cos(elevation) + Vector3.up * distance * Mathf.Sin(elevation);
-        //transform.position = newPos;//Vector3.Lerp(transform.position,newPos,Time.deltaTime*kLerpPos);
-        //transform.LookAt(target);
     }
 
     void OnGUI()

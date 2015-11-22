@@ -80,10 +80,10 @@ public class GameManager : MonoBehaviour {
     
     IEnumerator Start ()
     {
-        if (MenuManager.manager)
-        {
-            MenuManager.manager.onPlayButtonClicked += PlayButtonClicked;
-        }
+        //if (MenuManager.manager)
+        //{
+        //    //MenuManager.manager.onPlayButtonClicked += PlayButtonClicked;
+        //}
 
         while (!(Metronome.manager.IsReady))
             yield return null;
@@ -94,11 +94,16 @@ public class GameManager : MonoBehaviour {
         
     }
 
-    private void PlayButtonClicked()
+    public void LaunchLevel(string nameLevel)
     {
-        print("GAME MANAGER : PlayButtonClicked");
-        LevelManager.manager.LoadLevel("Level1");
+        LevelManager.manager.LoadLevel(nameLevel);
     }
+
+    //private void PlayButtonClicked()
+    //{
+    //    print("GAME MANAGER : PlayButtonClicked");
+    //    LevelManager.manager.LoadLevel("Level1");
+    //}
 
     public void LevelIsReady()
     {
@@ -106,6 +111,7 @@ public class GameManager : MonoBehaviour {
 
         CustomTimer.manager.ResetAndStart();
 
+        print("GAMEMANAGER - onGamePlay");
         if (onGamePlay != null)
             onGamePlay();
 
