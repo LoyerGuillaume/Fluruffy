@@ -118,11 +118,23 @@ public class Cube : MonoBehaviour {
 
         currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
 
-        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+        CallbackCoroutine = new FunctionCallback(SetStateStop);
 
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
         
         currentState = STATE.actionConveyor;
+    }
+
+    void SetStateStop()
+    {
+        targetPosition = transform.position + Vector3.up * 0.5f;
+
+        currentAnimationCurvePosition = Config.manager.CubeCollisionWithWallAnimationCurve; // TODO CHANGE
+
+        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+
+        ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+
     }
 
     void SetStateDepop()
@@ -309,7 +321,8 @@ public class Cube : MonoBehaviour {
             if (CheckCollisionWithAction(hits[i]))
             {
                 collisionWithAction = true;
-                if (CheckCollisionWithWall()) //FIXME
+
+                while (CheckCollisionWithWall())
                 {
                     OnCollisionWithWall();
                 }
@@ -322,11 +335,9 @@ public class Cube : MonoBehaviour {
                 return;
             }
 
-            if (CheckCollisionWithWall()) // FIXME
+            while (CheckCollisionWithWall())
             {
                 OnCollisionWithWall();
-                return;
-                //print("CUBE - COLLISION AVEC MUR");
             }
         }
 

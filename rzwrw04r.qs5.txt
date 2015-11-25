@@ -1,0 +1,60 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   RUSH/Assets/Resources/Levels/Level1.prefab
+#	modified:   RUSH/Assets/Scenes/MainScene.unity
+#	modified:   RUSH/Assets/Scripts/Cube.cs
+#	modified:   RUSH/Assets/Scripts/Manager/Config.cs
+#	modified:   RUSH/Library/ScriptAssemblies/Assembly-CSharp.dll
+#	modified:   RUSH/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+#	modified:   RUSH/Library/UnityAssemblies/UnityEditor.iOS.Extensions.Xcode.dll
+#	modified:   RUSH/Library/assetDatabase3
+#	modified:   RUSH/Library/metadata/00/00000000000000004000000000000000
+#	modified:   RUSH/Library/metadata/49/49cddd47a26095f489a8a83bd3c38cdd
+#	modified:   RUSH/Library/metadata/b7/b71d3ad12ec70de41abd4987d79f83be.info
+#	modified:   RUSH/Library/metadata/d2/d2d1f936ce6b8204a8e02df66732ccc8
+#	modified:   RUSH/Library/shadercompiler-32bit-1.log
+#	modified:   RUSH/Library/shadercompiler-64bit-1.log
+#	new file:   RUSH/Temp/ProcessJobs/00000000000000000000000000000000.bakeup
+#	new file:   RUSH/Temp/ProcessJobs/392c060653d4b1ef91857c36f83c1656.lt
+#	new file:   RUSH/Temp/ProcessJobs/392c060653d4b1ef91857c36f83c1656.vis
+#	new file:   RUSH/Temp/ProcessJobs/68a1662b1df84c37ea29712b161ebc72.clust
+#	new file:   RUSH/Temp/ProcessJobs/8913f5831f1f102ad50a79fae24cacbc.lt
+#	new file:   RUSH/Temp/ProcessJobs/8913f5831f1f102ad50a79fae24cacbc.vis
+#	new file:   RUSH/Temp/ProcessJobs/d0a75d3e4cdce6dbf8c78a33ba893014.bakeup
+#	new file:   RUSH/Temp/ProcessJobs/e00aecb672a96a546c055628a2017121.clust
+#	new file:   RUSH/Temp/ProcessJobs/e9a6970f79cd12d8b075e7d72f1b07cb.bakert
+#
+# Untracked files:
+#	RUSH/Temp/UnityLockfile
+#	RUSH/Temp/UnityTempFile-0948753f6ca63bd4897ac4b9a12b5c8f
+#	RUSH/Temp/UnityTempFile-1eefe0fc38462e94a81b7b4301d7c851
+#	RUSH/Temp/UnityTempFile-2a28fcf70b59e1c4b83d132ac5c48343
+#	RUSH/Temp/UnityTempFile-3ce52e9d934345141a107fdeca4fecb7
+#	RUSH/Temp/UnityTempFile-5636f156cff0cd947945d85e250acf25
+#	RUSH/Temp/UnityTempFile-5dea3cb5abf6ab34ca99ffc5576efb9a
+#	RUSH/Temp/UnityTempFile-72a36dbaccb5b0f45846442f94986b30
+#	RUSH/Temp/UnityTempFile-7610f368cd7a469499f5100737b98dcc
+#	RUSH/Temp/UnityTempFile-7896881ede5a0294380a0dccd502510d
+#	RUSH/Temp/UnityTempFile-8b3c3ac97d36b72488c4662bf2e4b713
+#	RUSH/Temp/UnityTempFile-9afef75ec8078184b9a184ca25c448d8
+#	RUSH/Temp/UnityTempFile-9e7218e6b47935d40b06e051ef395b64
+#	RUSH/Temp/UnityTempFile-a27205f0334e94749bd0b272947fca97
+#	RUSH/Temp/UnityTempFile-aa7f194044e0602468af3e6b022cb230
+#	RUSH/Temp/UnityTempFile-ad6c81aac3dd8d04e92db64b54c5a455
+#	RUSH/Temp/UnityTempFile-be173c588c35489419e70a3643cac3e5
+#	RUSH/Temp/UnityTempFile-c632ad0ba74978f4fa74343776cd1a9b
+#	RUSH/Temp/UnityTempFile-c8a70f1dbf6ae2645bb1f97aa2f30dc2
+#	RUSH/Temp/UnityTempFile-d1297890efc46d4498019d063e29b031
+#	RUSH/Temp/UnityTempFile-db5d57ac856aa1e4197067fa0f535dab
+#	RUSH/Temp/UnityTempFile-dce86aede72bac044b5a524017797a71
+#	RUSH/Temp/UnityTempFile-ea63f10184779e54eba80956bd162cb7
+#	RUSH/Temp/UnityTempFile-f5b471f841ec69b4ab12542788c93456
+#	RUSH/Temp/UnityVS_obj/
+#	RUSH/Temp/__EditModeScene
+#
+
