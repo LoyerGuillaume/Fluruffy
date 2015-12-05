@@ -11,7 +11,6 @@ public class LevelManager : BaseManager<LevelManager>
     private GameObject currentLevel;
     
     private int numberTotalOfCubeShouldArrived;
-    private int numberOfCubeArrived;
     private int numberOfCubeBySpawn;
     
     //private List<LevelActionTeleport> teleports;
@@ -56,7 +55,6 @@ public class LevelManager : BaseManager<LevelManager>
     private void initLevel()
     {
         numberTotalOfCubeShouldArrived = 0;
-        numberOfCubeArrived = 0;
         BroadcastMessage("SetFrequenceCreationCube", currentLevel.GetComponent<Level>().FrequenceCreationCubes);
 
         numberOfCubeBySpawn = currentLevel.GetComponent<Level>().NumberOfSpawnCube;
@@ -99,11 +97,11 @@ public class LevelManager : BaseManager<LevelManager>
 
     private void CubeArrived(Cube cube)
     {
-        numberOfCubeArrived++;
+        numberTotalOfCubeShouldArrived--;
         cube.OnDestroy();
         DestroyObject(cube.transform.gameObject);
 
-        if (numberOfCubeArrived == numberTotalOfCubeShouldArrived)
+        if (numberTotalOfCubeShouldArrived == 0)
         {
             GameManager.manager.GameWin();
         }

@@ -2,7 +2,9 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+
 using System.Collections.Generic;
+using System.Linq;
 
 public class MenuManager : BaseManager<MenuManager>
 {
@@ -64,6 +66,7 @@ public class MenuManager : BaseManager<MenuManager>
     private void InitLevelButton()
     {
         GameObject[] levelButtons = GameObject.FindGameObjectsWithTag("LevelButton");
+        
         foreach (GameObject btn in levelButtons)
         {
             print("NAME BUTTON LEVEL : " + btn.name);

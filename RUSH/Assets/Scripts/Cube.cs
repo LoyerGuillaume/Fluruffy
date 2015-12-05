@@ -52,7 +52,7 @@ public class Cube : MonoBehaviour {
     };
 
     // Use this for initialization
-    void Start () { 
+    void Start () {
         SetStatePop();
         direction = transform.forward;
 
@@ -139,6 +139,7 @@ public class Cube : MonoBehaviour {
 
     void SetStateDepop()
     {
+
         targetPosition = transform.position + Vector3.up;
 
         startScale = transform.localScale - Vector3.one * 0.5f;
@@ -147,7 +148,7 @@ public class Cube : MonoBehaviour {
         currentAnimationCurvePosition = Config.manager.CurvePopPositionCube;
         currentAnimationCurveScale = Config.manager.CurveDesapearScaleCube;
 
-        CallbackCoroutine = new FunctionCallback(CubeArrived);
+        CallbackCoroutine = new FunctionCallback(Arrived);
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
         
@@ -170,6 +171,7 @@ public class Cube : MonoBehaviour {
         currentState = STATE.actionTeleport;
     }
     #endregion
+    
 
     private void StartTic ()
     {
@@ -182,7 +184,7 @@ public class Cube : MonoBehaviour {
         {
             currentAction = null;
         }
-
+        
         StartCoroutine(ActionCoroutine());
     }
 
@@ -263,34 +265,8 @@ public class Cube : MonoBehaviour {
 
         transform.position = position;
     }
-
-    void Update()
-    {
-        //CheckInput();
-    }
-
-    //void CheckInput()
-    //{
-    //    if (Input.GetKey(KeyCode.UpArrow))
-    //    {
-    //        direction = transform.forward;
-    //    }
-    //    else if (Input.GetKey(KeyCode.DownArrow))
-    //    {
-    //        direction = -transform.forward;
-    //    }
-    //    else if (Input.GetKey(KeyCode.LeftArrow))
-    //    {
-    //        direction = -transform.right;
-    //    }
-    //    else if (Input.GetKey(KeyCode.RightArrow))
-    //    {
-    //        direction = transform.right;
-    //    }
-
-    //}
-
-    void CubeArrived()
+    
+    void Arrived()
     {
         SendMessageUpwards("CubeArrived", this);
     }
@@ -313,7 +289,7 @@ public class Cube : MonoBehaviour {
 
     void CheckCollision()
     {
-        Debug.DrawRay(transform.position, Vector3.down, Color.red, 1);
+        //Debug.DrawRay(transform.position, Vector3.down, Color.red, 1);
         RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.down, 1);
         for (int i = 0; i < hits.Length; i++)
         {
@@ -369,8 +345,11 @@ public class Cube : MonoBehaviour {
                 }
                 else if (levelAction is LevelActionConveyors)
                 {
-                    directionConveyor = hit.collider.transform.forward;
-                    SetStateActionConveyor();
+                    if (!CheckWallInDirection(hit.collider.transform.forward))
+                    {
+                        directionConveyor = hit.collider.transform.forward;
+                        SetStateActionConveyor();
+                    }
                 }
                 else if (levelAction is LevelActionTeleport)
                 {
@@ -410,6 +389,16 @@ public class Cube : MonoBehaviour {
 
     bool CheckCollisionWithWall()
     {
+        return CheckWallInDirection(direction);
+    }
+
+    //bool CheckCollisionWithWallConveyor()
+    //{
+    //    return CheckWallInDirection(directionConveyor);
+    //}
+
+    bool CheckWallInDirection(Vector3 direction)
+    {
         RaycastHit hit;
         return Physics.Raycast(transform.position, direction, out hit, 1) && hit.collider.CompareTag("LevelElement");
     }
@@ -419,7 +408,11 @@ public class Cube : MonoBehaviour {
 
     void OnTriggerEnter(Collider colliderItem)
     {
-        if (currentState != STATE.pop && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
+
+        //FIXME !!!
+        Cube colliderCube = colliderItem.GetComponent<Cube>();
+        if (colliderCube != null && (colliderCube.currentState == STATE.pop || colliderCube.currentState == STATE.depop)) return;
+        if (currentState != STATE.pop && currentState != STATE.depop  && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
         {
             print("CUBE - GAME OVER");
             SendMessageUpwards("CubeCollidedWithDeathZone", this);
