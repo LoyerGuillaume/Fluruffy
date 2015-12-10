@@ -10,3 +10,10 @@ Spécification par rapport au LevelActions :
     - Pour les LevelActionTeleportBlue -> il faut en poser deux sur la scène et pour les deux teleports posés sur la scene,
       drag & dropper dans le script Level Action Teleport des GameObject, l'autre teleport dans "Destination Teleport"
 
+Pour changer le nombre de cube à spawn : 
+    - Dans le GameObject Level1, la variable Number Of Spawn Cube du script "Level"
+
+Pour changer la fréquence de création de cube :
+    - Dans le GameObject Level1, la variable Frequence Creation Cubes du script "Level"
+
+

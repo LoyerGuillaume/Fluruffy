@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RUSH.CSharp.Plugins", "RUSH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RUSH.CSharp", "RUSH.CSharp.csproj", "{3FC75410-7432-6736-848E-9E72045D8122}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RUSH.CSharp.Editor", "RUSH.CSharp.Editor.csproj", "{244AF51E-E08F-9757-DB36-10B07F558A58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{3FC75410-7432-6736-848E-9E72045D8122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC75410-7432-6736-848E-9E72045D8122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC75410-7432-6736-848E-9E72045D8122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{244AF51E-E08F-9757-DB36-10B07F558A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244AF51E-E08F-9757-DB36-10B07F558A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244AF51E-E08F-9757-DB36-10B07F558A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244AF51E-E08F-9757-DB36-10B07F558A58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

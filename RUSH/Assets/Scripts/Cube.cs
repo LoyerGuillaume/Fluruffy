@@ -202,6 +202,7 @@ public class Cube : MonoBehaviour {
             yield return null;
         }
 
+        transform.localScale = Vector3.one;
         CallbackCoroutine();
     }
 
