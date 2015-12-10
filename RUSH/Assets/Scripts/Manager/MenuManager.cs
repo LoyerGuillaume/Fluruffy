@@ -31,27 +31,13 @@ public class MenuManager : BaseManager<MenuManager>
 
     protected override void Menu(params object[] prms)
     {
+        LevelButtonClick("Level1");
 
-        currentMenu = Instantiate(Resources.Load(PATH_UI + "MainMenu")) as GameObject;
+        //currentMenu = Instantiate(Resources.Load(PATH_UI + "MainMenu")) as GameObject;
 
-        GameObject btnPlay = GameObject.Find("Play");
-        btnPlay.GetComponent<Button>().onClick.AddListener(PlayClick);
-        print("MENUMANAGER : Menu Started");
-
-
-
-        //for (int i = 1; i <= 50; i++)
-        //{
-
-        //    button.name = PlayerPrefs.GetString("LeveltextNumber" + i.ToString());
-
-
-        //    button.button.onClick.AddListener(delegate { test(button.name); });
-
-        //if (onPlayButtonClicked != null)
-        //{
-        //    //onPlayButtonClicked();
-        //}
+        //GameObject btnPlay = GameObject.Find("Play");
+        //btnPlay.GetComponent<Button>().onClick.AddListener(PlayClick);
+        //print("MENUMANAGER : Menu Started");
 
     }
 
@@ -84,7 +70,7 @@ public class MenuManager : BaseManager<MenuManager>
 
     private void DestroyCurrentMenu()
     {
-        currentMenu.SetActive(false);
-        Destroy(currentMenu);
+        //currentMenu.SetActive(false);
+        //Destroy(currentMenu);
     }
 }

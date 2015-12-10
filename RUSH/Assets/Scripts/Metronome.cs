@@ -55,7 +55,10 @@ public class Metronome : BaseManager<Metronome> {
 
         //print("METRONOME : TIC");
         elapsedTime = 0;
-        onTic();
+        if (onTic != null)
+        {
+            onTic();
+        }
         StartCoroutine(CoroutineTic());
     }
 }
