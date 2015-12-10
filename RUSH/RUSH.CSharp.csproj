@@ -78,8 +78,18 @@
     <Reference Include="Vectrosity">
       <HintPath>Assets\Plugins\Vectrosity.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="RUSH.CSharp.Plugins.csproj">
+      <Project>{E92CF493-E9F4-38E6-2BEF-C9A5CB2C5619}</Project>
+      <Name>RUSH.CSharp.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Fantasy Skybox FREE\Scripts\FSPlayer.cs" />
     <Compile Include="Assets\Scripts\BoundingLimit.cs" />
     <Compile Include="Assets\Scripts\Camera\SatelliteCameraSpherical.cs" />
     <Compile Include="Assets\Scripts\Camera\SatelliteCameraSphericalDavid.cs" />
@@ -101,6 +111,9 @@
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\Target.cs" />
     <Compile Include="Assets\Scripts\Visual\VisualExclamation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Fantasy Skybox FREE\Readme\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

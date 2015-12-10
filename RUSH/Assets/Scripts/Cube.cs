@@ -228,6 +228,7 @@ public class Cube : MonoBehaviour {
         Quaternion qRotation = Quaternion.AngleAxis(angle, vecAxis);
         Quaternion qTargetRotation = qRotation * transform.rotation;
 
+
         Quaternion qPositionStart = Quaternion.AngleAxis(0, vecAxis);
         Quaternion qPositionTarget = Quaternion.AngleAxis(angle, vecAxis);
 
