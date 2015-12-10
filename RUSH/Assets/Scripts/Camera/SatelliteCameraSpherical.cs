@@ -150,39 +150,29 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     // Update is called once per frame
     void Update()
     {
-        
         if (isActive)
         {
             if (Input.GetMouseButtonDown(1))
             {
                 startInputMouse = Input.mousePosition;
-                StartCoroutine(InputMouse());
+                StartCoroutine(ChangeTargetMovementWithMouse());
             }
             
             if (!Input.GetMouseButton(1))
             {
-                InputKeyboard();
+                ChangeTargetMovementWithKeyboard();
             }
 
             Movement();
         }
-
-
-
-
         transform.position = CoordSystem.SphericalToCartesian(new CoordSystem.Spherical(distance, azimut, elevation));
 
         transform.LookAt(target);
-
-        //Vector3 dirH = new Vector3(Mathf.Cos(azimut), 0, Mathf.Sin(azimut));
-
-        //Vector3 newPos = target.position + dirH * distance * Mathf.Cos(elevation) + Vector3.up * distance * Mathf.Sin(elevation);
-        //transform.position = newPos;//Vector3.Lerp(transform.position,newPos,Time.deltaTime*kLerpPos);
-        //transform.LookAt(target);
     }
 
+
     //RENAME ME !
-    private void InputKeyboard()
+    private void ChangeTargetMovementWithKeyboard()
     {
         if (Input.GetKey(KeyCode.Q))
             targetAzimut -= azimutSpeed * Time.deltaTime;
@@ -195,18 +185,9 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
             targetElevation -= elevationSpeed * Time.deltaTime;
     }
 
-    private void Movement ()
-    {
-        azimut = Mathf.Lerp(azimut, targetAzimut, Time.deltaTime * kLerpPos);
-        targetElevation = Mathf.Clamp(targetElevation, minElevation, maxElevation);
-        elevation = Mathf.Lerp(elevation, targetElevation, Time.deltaTime * kLerpPos);
-        
-        targetDistance = Mathf.Clamp(targetDistance - distanceSpeed * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime, minDist, maxDist);
-        distance = Mathf.Lerp(distance, targetDistance, Time.deltaTime * kLerpPos);
-    }
 
     //RENAME ME !
-    IEnumerator InputMouse()
+    IEnumerator ChangeTargetMovementWithMouse()
     {
         while (Input.GetMouseButton(1))
         {
@@ -220,6 +201,17 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
 
             yield return null;
         }
+    }
+
+
+    private void Movement()
+    {
+        azimut = Mathf.Lerp(azimut, targetAzimut, Time.deltaTime * kLerpPos);
+        targetElevation = Mathf.Clamp(targetElevation, minElevation, maxElevation);
+        elevation = Mathf.Lerp(elevation, targetElevation, Time.deltaTime * kLerpPos);
+
+        targetDistance = Mathf.Clamp(targetDistance - distanceSpeed * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime, minDist, maxDist);
+        distance = Mathf.Lerp(distance, targetDistance, Time.deltaTime * kLerpPos);
     }
 
     void OnGUI()
