@@ -1,0 +1,206 @@
+Initialize engine version: 5.2.0f3 (e7947df39b5c)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 860M   (ID=0x1392)
+    Vendor:   NVIDIA
+    VRAM:     1991 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\TPMath.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\TPMath.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Vectrosity.dll (this message is harmless)
+Loading D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\Vectrosity.dll into Unity Child Domain
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.048 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: D:\DEV\ISART\Unity\PROJECTS\Fluruffy\RUSH\Fluruffy_Data\Managed\System.dll (this message is harmless)
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 6e8 -> priority: 1 
+  Thread -> id: 2c04 -> priority: 1 
+LEVEL CLICKED : Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+LEVELMANAGER : LoadLevel
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+GAMEMANAGER - onGamePlay
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+LEVELMANAGER : PLAY
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+METRONOME : PLAY
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+CAMERA : PLAY
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+COLLISION WITH ACTION
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+

@@ -91,8 +91,12 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     float targetElevation;
 
     public float azimutSpeed;
-    public float distanceSpeed;
     public float elevationSpeed;
+
+    public float azimutMouseSpeed;
+    public float elevationMouseSpeed;
+
+    public float distanceSpeed;
 
     public Transform target;
 
@@ -109,6 +113,10 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     Vector3 targetPos;
 
     private bool isActive = false;
+
+
+    private Vector3 startInputMouse;
+    private Vector3 targetInputMouse;
 
     protected override IEnumerator CoroutineStart()
     {
@@ -142,10 +150,24 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     // Update is called once per frame
     void Update()
     {
+        
         if (isActive)
         {
+            if (Input.GetMouseButtonDown(1))
+            {
+                startInputMouse = Input.mousePosition;
+                StartCoroutine(InputMouse());
+            }
+            
+            if (!Input.GetMouseButton(1))
+            {
+                InputKeyboard();
+            }
+
             Movement();
         }
+
+
 
 
         transform.position = CoordSystem.SphericalToCartesian(new CoordSystem.Spherical(distance, azimut, elevation));
@@ -159,27 +181,45 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
         //transform.LookAt(target);
     }
 
-    private void Movement ()
+    //RENAME ME !
+    private void InputKeyboard()
     {
         if (Input.GetKey(KeyCode.Q))
             targetAzimut -= azimutSpeed * Time.deltaTime;
         else if (Input.GetKey(KeyCode.D))
             targetAzimut += azimutSpeed * Time.deltaTime;
-        azimut = Mathf.Lerp(azimut, targetAzimut, Time.deltaTime * kLerpPos);
 
         if (Input.GetKey(KeyCode.Z))
             targetElevation += elevationSpeed * Time.deltaTime;
         else if (Input.GetKey(KeyCode.S))
             targetElevation -= elevationSpeed * Time.deltaTime;
+    }
+
+    private void Movement ()
+    {
+        azimut = Mathf.Lerp(azimut, targetAzimut, Time.deltaTime * kLerpPos);
         targetElevation = Mathf.Clamp(targetElevation, minElevation, maxElevation);
         elevation = Mathf.Lerp(elevation, targetElevation, Time.deltaTime * kLerpPos);
-
+        
         targetDistance = Mathf.Clamp(targetDistance - distanceSpeed * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime, minDist, maxDist);
         distance = Mathf.Lerp(distance, targetDistance, Time.deltaTime * kLerpPos);
+    }
+
+    //RENAME ME !
+    IEnumerator InputMouse()
+    {
+        while (Input.GetMouseButton(1))
+        {
+            Vector3 vectorMovement = Input.mousePosition - startInputMouse;
+
+            targetAzimut += azimutMouseSpeed * Time.deltaTime * -vectorMovement.x;
+            targetElevation += elevationMouseSpeed * Time.deltaTime * vectorMovement.y;
 
 
+            startInputMouse = Input.mousePosition;
 
-
+            yield return null;
+        }
     }
 
     void OnGUI()

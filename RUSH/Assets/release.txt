@@ -16,4 +16,7 @@ Pour changer le nombre de cube à spawn :
 Pour changer la fréquence de création de cube :
     - Dans le GameObject Level1, la variable Frequence Creation Cubes du script "Level"
 
+Afin de tester avec des fps basses : 
+    - Sur la scene DebugFPSTester => augmenter la variable "Number Of Loop" fera diminué les FPS
+
 
