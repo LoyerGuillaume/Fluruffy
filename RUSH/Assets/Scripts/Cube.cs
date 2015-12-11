@@ -94,7 +94,8 @@ public class Cube : MonoBehaviour {
 
         currentAnimationCurvePosition = Config.manager.LinearAnimationCurve;
 
-        CallbackCoroutine = () => { };
+        CallbackCoroutine = new FunctionCallback(SetStateWalk);
+        //CallbackCoroutine = () => { };
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
         
         currentState = STATE.fall;
@@ -413,8 +414,9 @@ public class Cube : MonoBehaviour {
 
         //FIXME !!!
         Cube colliderCube = colliderItem.GetComponent<Cube>();
-        if (colliderCube != null && (colliderCube.currentState == STATE.pop || colliderCube.currentState == STATE.depop)) return;
-        if (currentState != STATE.pop && currentState != STATE.depop  && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
+        //FIX ME !!
+        if (colliderCube != null && (colliderCube.currentState == STATE.pop || colliderCube.currentState == STATE.depop || colliderCube.currentState == STATE.actionTeleport)) return;
+        if (currentState != STATE.pop && currentState != STATE.depop && currentState != STATE.actionTeleport && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
         {
             print("CUBE - GAME OVER");
             SendMessageUpwards("CubeCollidedWithDeathZone", this);

@@ -152,12 +152,17 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     {
         if (isActive)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButton(1))
             {
                 startInputMouse = Input.mousePosition;
-                StartCoroutine(ChangeTargetMovementWithMouse());
+                ChangeTargetMovementWithMouse();
             }
-            
+
+            //if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            //{
+            //    ChangeTargetMovementWithTouch();
+            //}
+
             if (!Input.GetMouseButton(1))
             {
                 ChangeTargetMovementWithKeyboard();
@@ -168,6 +173,14 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
         transform.position = CoordSystem.SphericalToCartesian(new CoordSystem.Spherical(distance, azimut, elevation));
 
         transform.LookAt(target);
+    }
+
+    private void ChangeTargetMovementWithTouch()
+    {
+        Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+
+        targetAzimut += azimutMouseSpeed * Time.deltaTime * -touchDeltaPosition.x;
+        targetElevation += elevationMouseSpeed * Time.deltaTime * touchDeltaPosition.y;
     }
 
 
@@ -187,21 +200,31 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
 
 
     //RENAME ME !
-    IEnumerator ChangeTargetMovementWithMouse()
+    private void ChangeTargetMovementWithMouse()
     {
-        while (Input.GetMouseButton(1))
-        {
-            Vector3 vectorMovement = Input.mousePosition - startInputMouse;
-
-            targetAzimut += azimutMouseSpeed * Time.deltaTime * -vectorMovement.x;
-            targetElevation += elevationMouseSpeed * Time.deltaTime * vectorMovement.y;
-
-
-            startInputMouse = Input.mousePosition;
-
-            yield return null;
-        }
+        Vector2 vectorMovement = new Vector2();
+        vectorMovement.x = Input.GetAxis("Mouse X");
+        vectorMovement.y = Input.GetAxis("Mouse Y");
+        //Vector3 vectorMovement = Input.mousePosition - startInputMouse;
+        targetAzimut += azimutMouseSpeed * Time.deltaTime * -vectorMovement.x;
+        targetElevation += elevationMouseSpeed * Time.deltaTime * vectorMovement.y;
     }
+
+    //IEnumerator ChangeTargetMovementWithMouse()
+    //{
+    //    while (Input.GetMouseButton(1))
+    //    {
+    //        Vector3 vectorMovement = Input.mousePosition - startInputMouse;
+
+    //        targetAzimut += azimutMouseSpeed * Time.deltaTime * -vectorMovement.x;
+    //        targetElevation += elevationMouseSpeed * Time.deltaTime * vectorMovement.y;
+
+
+    //        startInputMouse = Input.mousePosition;
+
+    //        yield return null;
+    //    }
+    //}
 
 
     private void Movement()
