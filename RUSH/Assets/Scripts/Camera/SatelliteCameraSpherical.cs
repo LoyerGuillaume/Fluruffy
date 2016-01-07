@@ -158,10 +158,10 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
                 ChangeTargetMovementWithMouse();
             }
 
-            //if (Input.GetTouch(0).phase == TouchPhase.Moved)
-            //{
-            //    ChangeTargetMovementWithTouch();
-            //}
+            if (Input.touchCount == 1)
+            {
+                ChangeTargetMovementWithTouch();
+            }
 
             if (!Input.GetMouseButton(1))
             {
