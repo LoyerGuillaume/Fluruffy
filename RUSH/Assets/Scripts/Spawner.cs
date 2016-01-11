@@ -22,14 +22,24 @@ public class Spawner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        numberOfTic = 0;
-
-        SendMessageUpwards("AddSpawner");
-
+        Init();
         if (Metronome.manager)
         {
             Metronome.manager.onTic += StartTic;
         }
+    }
+
+    private void Init()
+    {
+        numberOfTic = 0;
+        numberOfSpawn = 0;
+
+        SendMessageUpwards("AddSpawner");
+    }
+
+    private void ResetLevel()
+    {
+        Init();
     }
 
     private void StartTic()

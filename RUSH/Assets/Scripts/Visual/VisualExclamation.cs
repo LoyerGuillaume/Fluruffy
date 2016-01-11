@@ -33,4 +33,19 @@ public class VisualExclamation : MonoBehaviour {
 
 
     }
+
+    private void ResetLevel()
+    {
+        DestroyMe();
+    }
+
+    private void DestroyMe()
+    {
+        SendMessageUpwards("DestroyExclamation", this);
+    }
+
+    public void OnDestroy()
+    {
+
+    }
 }

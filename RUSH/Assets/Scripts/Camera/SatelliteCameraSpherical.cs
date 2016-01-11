@@ -118,6 +118,8 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     private Vector3 startInputMouse;
     private Vector3 targetInputMouse;
 
+    private bool hasStartedZoom = false;
+
     protected override IEnumerator CoroutineStart()
     {
         IsReady = true;
@@ -158,9 +160,14 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
                 ChangeTargetMovementWithMouse();
             }
 
-            if (Input.touchCount == 1)
+            if (Input.touchCount == 1 && Input.touches[0].deltaPosition.magnitude > 1)
             {
                 ChangeTargetMovementWithTouch();
+            }
+
+            if (Input.touchCount == 2)
+            {
+                TouchZoom();
             }
 
             if (!Input.GetMouseButton(1))
@@ -179,8 +186,22 @@ public class SatelliteCameraSpherical : BaseManager<SatelliteCameraSpherical>
     {
         Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
-        targetAzimut += azimutMouseSpeed * Time.deltaTime * -touchDeltaPosition.x;
-        targetElevation += elevationMouseSpeed * Time.deltaTime * touchDeltaPosition.y;
+        targetAzimut += azimutMouseSpeed * Time.deltaTime * -touchDeltaPosition.x / 10;
+        targetElevation += elevationMouseSpeed * Time.deltaTime * touchDeltaPosition.y / 10;
+    }
+
+
+    private void TouchZoom()
+    {
+        //float currFingersDist = (Input.touches[0].position - Input.touches[1].position).magnitude;
+
+        //if (!hasStartedZoom)
+        //{
+        //    previousFindersDist = currFingersDist;
+        //}
+
+        //float deltaFingersDist = currFingersDist - previousFinger
+        //targetDistance = Mathf.Clamp(targetDistance - distanceSpeedTouch *  )
     }
 
 

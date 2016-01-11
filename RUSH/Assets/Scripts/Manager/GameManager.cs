@@ -80,18 +80,43 @@ public class GameManager : MonoBehaviour {
     
     IEnumerator Start ()
     {
-        //if (MenuManager.manager)
-        //{
-        //    //MenuManager.manager.onPlayButtonClicked += PlayButtonClicked;
-        //}
-
-        while (!(Metronome.manager.IsReady))
+        while (!(Metronome.manager.IsReady) || !(LevelManager.manager.IsReady))
             yield return null;
 
+        // Play music test
+        if (MusicLoopsManager.manager) MusicLoopsManager.manager.PlayMusic(MusicType.menuMusic);
+
+
+        AddLevelManagerListener();
+        AddMenuManagerListener();
+        AddHudManagerListener();
 
         currentState = GAME_STATE.menu;
         if (onGameMenu != null) onGameMenu();
-        
+    }
+
+    private void AddLevelManagerListener()
+    {
+        LevelManager.manager.onAllCubesArrived += GameWin;
+        LevelManager.manager.onCubeCollidedWithDeathZone += GameOver;
+        LevelManager.manager.onLevelReady += LevelIsReady;
+    }
+
+    private void AddMenuManagerListener()
+    {
+        MenuManager.manager.onLevelButtonClick += LevelButtonClick;
+    }
+
+    private void AddHudManagerListener()
+    {
+        HudManager.manager.onClickButtonEditionMode += SetModeEdition;
+        HudManager.manager.onClickButtonPlayPhase += SetPhasePlay;
+    }
+
+    private void LevelButtonClick(string nameLevel)
+    {
+        MenuManager.manager.DestroyCurrentMenu();
+        LaunchLevel(nameLevel);
     }
 
     public void LaunchLevel(string nameLevel)
@@ -109,7 +134,9 @@ public class GameManager : MonoBehaviour {
     {
         currentState = GAME_STATE.play;
 
-        CustomTimer.manager.ResetAndStart();
+        
+        CustomTimer.manager.ResetAndStop();
+        HudManager.manager.StartHud();
 
         print("GAMEMANAGER - onGamePlay");
         if (onGamePlay != null)
@@ -141,17 +168,29 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
+
+    public void SetPhasePlay()
+    {
+        CustomTimer.manager.ResetAndStart();
+    }
+
+    public void SetModeEdition()
+    {
+        CustomTimer.manager.ResetAndStop();
+        LevelManager.manager.RestartLevel();
+    }
     
     public void GameOver()
     {
+        print("Game MANAGER - GAME OVER");
         CustomTimer.manager.StopTimer();
         onGameOver();
     }
 
     public void GameWin()
     {
-        CustomTimer.manager.StopTimer();
         print("GAME MANAGER - GAMEWIN");
+        CustomTimer.manager.StopTimer();
         onVictory();
     }
 }

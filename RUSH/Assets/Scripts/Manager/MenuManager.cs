@@ -18,6 +18,7 @@ public class MenuManager : BaseManager<MenuManager>
     //public Action onPlayButtonClicked;
     public Action onPauseButtonClicked;
     public Action onResumeButtonClicked;
+    public Action<string> onLevelButtonClick;
     //public Action onNewGameButtonClicked;
     //public Action onMainMenuButtonClicked;
     #endregion
@@ -31,13 +32,13 @@ public class MenuManager : BaseManager<MenuManager>
 
     protected override void Menu(params object[] prms)
     {
-        LevelButtonClick("Level1");
+        //LevelButtonClick("Level1");
 
-        //currentMenu = Instantiate(Resources.Load(PATH_UI + "MainMenu")) as GameObject;
+        currentMenu = Instantiate(Resources.Load(PATH_UI + "MainMenu")) as GameObject;
 
-        //GameObject btnPlay = GameObject.Find("Play");
-        //btnPlay.GetComponent<Button>().onClick.AddListener(PlayClick);
-        //print("MENUMANAGER : Menu Started");
+        GameObject btnPlay = GameObject.Find("Play");
+        btnPlay.GetComponent<Button>().onClick.AddListener(PlayClick);
+        print("MENUMANAGER : Menu Started");
 
     }
 
@@ -64,13 +65,12 @@ public class MenuManager : BaseManager<MenuManager>
     private void LevelButtonClick(String nameLevel)
     {
         print("LEVEL CLICKED : " + nameLevel);
-        DestroyCurrentMenu();
-        GameManager.manager.LaunchLevel(nameLevel);
+        if (onLevelButtonClick != null) onLevelButtonClick(nameLevel);
     }
 
-    private void DestroyCurrentMenu()
+    public void DestroyCurrentMenu()
     {
-        //currentMenu.SetActive(false);
-        //Destroy(currentMenu);
+        currentMenu.SetActive(false);
+        Destroy(currentMenu);
     }
 }

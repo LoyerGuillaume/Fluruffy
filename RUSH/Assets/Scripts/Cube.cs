@@ -38,6 +38,8 @@ public class Cube : MonoBehaviour {
     [SerializeField]
     private string color;
 
+    public bool enableCollision;
+
     private STATE currentState;
     public enum STATE
     {
@@ -80,12 +82,14 @@ public class Cube : MonoBehaviour {
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
         currentState = STATE.pop;
+        enableCollision = false;
     }
 
     void SetStateWalk()
     {
         ActionCoroutine = new StateCoroutine(MovementCoroutine);
         currentState = STATE.walk;
+        enableCollision = true;
     }
     
     void SetStateFall()
@@ -99,6 +103,7 @@ public class Cube : MonoBehaviour {
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
         
         currentState = STATE.fall;
+        enableCollision = true;
     }
 
     void SetStateActionStop()
@@ -111,6 +116,7 @@ public class Cube : MonoBehaviour {
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
         
         currentState = STATE.actionStop;
+        enableCollision = true;
     }
 
     void SetStateActionConveyor()
@@ -124,6 +130,7 @@ public class Cube : MonoBehaviour {
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
         
         currentState = STATE.actionConveyor;
+        enableCollision = true;
     }
 
     void SetStateStop()
@@ -135,12 +142,12 @@ public class Cube : MonoBehaviour {
         CallbackCoroutine = new FunctionCallback(SetStateWalk);
 
         ActionCoroutine = new StateCoroutine(ChangePositionCoroutine);
+        enableCollision = true;
 
     }
 
     void SetStateDepop()
     {
-
         targetPosition = transform.position + Vector3.up;
 
         startScale = transform.localScale - Vector3.one * 0.5f;
@@ -154,6 +161,28 @@ public class Cube : MonoBehaviour {
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
         
         currentState = STATE.depop;
+        enableCollision = false;
+    }
+
+
+    void SetStateReset()
+    {
+        targetPosition = transform.position + Vector3.up;
+
+        startScale = transform.localScale - Vector3.one * 0.5f;
+        targetScale = transform.localScale + Vector3.one * 0.5f;
+
+        currentAnimationCurvePosition = Config.manager.CurvePopPositionCube;
+        currentAnimationCurveScale = Config.manager.CurveDesapearScaleCube;
+
+        CallbackCoroutine = new FunctionCallback(DestroyMe);
+        //CallbackCoroutine = () => { };
+
+        ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
+
+        currentState = STATE.depop;
+        enableCollision = false;
+
     }
 
     void SetStateActionTeleport()
@@ -170,6 +199,7 @@ public class Cube : MonoBehaviour {
 
         ActionCoroutine = new StateCoroutine(ChangePositionAndScaleCoroutine);
         currentState = STATE.actionTeleport;
+        enableCollision = false;
     }
     #endregion
     
@@ -219,8 +249,7 @@ public class Cube : MonoBehaviour {
 
         CallbackCoroutine();
     }
-
-
+    
     IEnumerator MovementCoroutine()
     {
         Vector3 startPosition = transform.position;
@@ -273,7 +302,7 @@ public class Cube : MonoBehaviour {
     {
         SendMessageUpwards("CubeArrived", this);
     }
-
+    
     void CubeTeleport()
     {
         transform.localScale = Vector3.one; //Only if default scale is 1, 1, 1
@@ -364,8 +393,8 @@ public class Cube : MonoBehaviour {
                 else if (levelAction is LevelActionSplit)
                 {
                     LevelActionSplit levelActionSplit = (LevelActionSplit)levelAction;
-                    direction = (levelActionSplit.SplitTic ? -1 : 1) * Vector3.Cross(Vector3.up, direction);
-                    levelActionSplit.ChangeTic();
+                    direction = (levelActionSplit.RotationLeft ? -1 : 1) * Vector3.Cross(Vector3.up, direction);
+                    levelActionSplit.ChangeRotation();
                 }
             }
             return true;
@@ -414,13 +443,19 @@ public class Cube : MonoBehaviour {
 
         //FIXME !!!
         Cube colliderCube = colliderItem.GetComponent<Cube>();
-        //FIX ME !!
-        if (colliderCube != null && (colliderCube.currentState == STATE.pop || colliderCube.currentState == STATE.depop || colliderCube.currentState == STATE.actionTeleport)) return;
-        if (currentState != STATE.pop && currentState != STATE.depop && currentState != STATE.actionTeleport && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
+        if (colliderCube != null && (!colliderCube.enableCollision)) return;
+        if (enableCollision && (colliderItem.tag == "DeathZone" || colliderItem.tag == "Cube"))
         {
             print("CUBE - GAME OVER");
             SendMessageUpwards("CubeCollidedWithDeathZone", this);
         }
+    }
+
+
+    private void ResetLevel()
+    {
+        DestroyMe();
+        //SetStateReset();
     }
 
     public void OnDestroy()
@@ -429,5 +464,10 @@ public class Cube : MonoBehaviour {
         {
             Metronome.manager.onTic -= StartTic;
         }
+    }
+    
+    void DestroyMe()
+    {
+        SendMessageUpwards("DestroyCube", this);
     }
 }

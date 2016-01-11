@@ -1,26 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Xml;
 using System.Collections.Generic;
 
 public class LevelManager : BaseManager<LevelManager>
 {
     private const String PATH_LEVEL = "Levels/";
+    private const String PATH_LEVEL_ACTION = "LevelActions/";
     private const String PATH_VISUAL = "Visual/";
 
     private GameObject currentLevel;
-    
-    private int numberTotalOfCubeShouldArrived;
-    private int numberOfCubeBySpawn;
-    
+
+    public TextAsset actionXml;
+
+    private bool solve;
+
+    private int nTotalCubesShouldArrived;
+    private int nCubeBySpawn;
+
+    private Dictionary<string, Dictionary<string, int>> nActionPerLevel;
+    private Dictionary<string, List<GameObject>> listCurrentAction;
+
+    //private Dictionary<string, List<GameObject>> listActions;
+
+    //public Dictionary<string, List<GameObject>> ListActions
+    //{
+    //    get
+    //    {
+    //        return listActions;
+    //    }
+    //}
+
+
     //private List<LevelActionTeleport> teleports;
 
     #region Events
-    //public delegate void GameStepNotification(params object[] prms);
-
-    //public event GameStepNotification onStartTic;
+    public event Action onAllCubesArrived;
+    public event Action onCubeCollidedWithDeathZone;
+    public event Action onLevelReady;
     #endregion
 
+    protected override void Awake()
+    {
+        base.Awake();
+        InitListActionsLevels();
+        print("LEVEL MANAGER - XML : " + nActionPerLevel);
+    }
 
     protected override IEnumerator CoroutineStart()
     {
@@ -32,6 +58,7 @@ public class LevelManager : BaseManager<LevelManager>
     {
         print("LEVELMANAGER : LoadLevel");
         LoadAndStartLevel(nameLevel);
+        InitListCurrentAction(nameLevel);
         StartCoroutine(InitLevelWhenIsReadyCoroutine());
     }
 
@@ -42,8 +69,9 @@ public class LevelManager : BaseManager<LevelManager>
             yield return null;
         }
 
-        initLevel();
-        GameManager.manager.LevelIsReady();
+        InitLevel();
+        if (onLevelReady != null) onLevelReady();
+        //GameManager.manager.LevelIsReady();
     }
 
     private void LoadAndStartLevel(String nameLevel)
@@ -52,15 +80,100 @@ public class LevelManager : BaseManager<LevelManager>
         currentLevel.transform.SetParent(transform);
     }
 
-    private void initLevel()
+    private void InitLevel()
     {
-        numberTotalOfCubeShouldArrived = 0;
-        BroadcastMessage("SetFrequenceCreationCube", currentLevel.GetComponent<Level>().FrequenceCreationCubes);
+        Level level = currentLevel.GetComponent<Level>();
 
-        numberOfCubeBySpawn = currentLevel.GetComponent<Level>().NumberOfSpawnCube;
-        BroadcastMessage("SetNumberOfSpawnCube", numberOfCubeBySpawn);
+        nTotalCubesShouldArrived = 0;
+        BroadcastMessage("SetFrequenceCreationCube", level.FrequenceCreationCubes);
 
-        //teleports = new List<LevelActionTeleport>();
+        nCubeBySpawn = level.NumberOfSpawnCube;
+        BroadcastMessage("SetNumberOfSpawnCube", nCubeBySpawn);
+    }
+
+    private void InitListCurrentAction(String levelName)
+    {
+        listCurrentAction = new Dictionary<string, List<GameObject>>();
+        foreach (string key in nActionPerLevel[levelName].Keys)
+        {
+            List<GameObject> listGameObjectAction = new List<GameObject>();
+            String nameInstantiateAction = key;
+            String actionRotation = "";
+            if (nameInstantiateAction.Split("_"[0])[0] == "Arrow")
+            {
+                actionRotation = nameInstantiateAction.Split("_"[0])[1];
+                nameInstantiateAction = "Arrow";
+            }
+
+            for (int i = 0; i < nActionPerLevel[levelName][key]; i++)
+            {
+                GameObject action = Instantiate(Resources.Load(PATH_LEVEL_ACTION + "LevelAction" + nameInstantiateAction)) as GameObject;
+                listGameObjectAction.Add(action);
+                if (actionRotation != "")
+                {
+                    action.transform.Rotate(new Vector3(0, int.Parse(actionRotation), 0));
+                }
+                action.SetActive(false);
+                action.transform.SetParent(currentLevel.transform.FindChild("Actions").transform);
+            }
+
+            listCurrentAction.Add(key, listGameObjectAction);
+        }
+    }
+
+
+    //TO DO
+    private void DestroyListCurrentAction()
+    {
+        if (listCurrentAction.Count != 0)
+        {
+
+        }
+    }
+    
+
+    /// <summary>
+    /// Initialize by xml "ACTION_LIST.xml" a dictionary with all Action 
+    /// </summary>
+    private void InitListActionsLevels()
+    {
+        //print("TEST : " + "arrow_0".Split("_"[0])[0]);
+        //print("TEST 2 : " + "arrow0".Split("_"[0])[0]);
+        nActionPerLevel = new Dictionary<string, Dictionary<string, int>>();
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(actionXml.text);
+
+        foreach (XmlNode nodeLevel in xmlDoc.GetElementsByTagName("LEVEL"))
+        {
+            Dictionary<string, int> listActions = new Dictionary<string, int>();
+            if (nodeLevel.NodeType != XmlNodeType.Comment)
+            {
+                foreach (XmlNode nodeAction in nodeLevel.ChildNodes)
+                {
+                    /* Retourne tous les noeuds même ceux des autres levels
+                    nodeLevel.OwnerDocument.GetElementsByTagName("ACTION")
+                    */
+
+                    //List<String> list = new List<String>();
+
+                    //for (int i = 0; i < int.Parse(levelNode.Attributes["number"].Value); i++)
+                    //{
+                    //    //GameObject action = Instantiate(Resources.Load(PATH_LEVEL_ACTION + "LevelAction" + levelNode.Attributes["name"].Value)) as GameObject;
+                    //    list.Add(levelNode.Attributes["name"].Value);
+                    //}
+                    listActions.Add(nodeAction.Attributes["name"].Value, int.Parse(nodeAction.Attributes["number"].Value));
+                }
+                nActionPerLevel.Add(nodeLevel.Attributes["name"].Value, listActions);
+            }
+        }
+    }
+
+    public void RestartLevel()
+    {
+        nTotalCubesShouldArrived = 0;
+        BroadcastMessage("ResetLevel");
+        //InitLevel();
     }
 
     protected override void Play(params object[] prms)
@@ -70,12 +183,15 @@ public class LevelManager : BaseManager<LevelManager>
 
     public void CubeCollidedWithDeathZone(Cube cube)
     {
-        print("LEVELMANAGER - GAME OVER");
+        CreateExclamation(cube.transform.position + Vector3.up);
+        if (onCubeCollidedWithDeathZone != null) onCubeCollidedWithDeathZone();
+    }
+
+    private void CreateExclamation(Vector3 position)
+    {
         GameObject exclamation = Instantiate(Resources.Load(PATH_VISUAL + "VisualExclamation")) as GameObject;
-
-        exclamation.GetComponent<VisualExclamation>().InitializePosition(cube.transform.position + Vector3.up);
-
-        GameManager.manager.GameOver();
+        exclamation.transform.SetParent(currentLevel.transform);
+        exclamation.GetComponent<VisualExclamation>().InitializePosition(position);
     }
 
     private void SpawnCube(Spawner spawner)
@@ -86,7 +202,7 @@ public class LevelManager : BaseManager<LevelManager>
 
     private void AddSpawner()
     {
-        numberTotalOfCubeShouldArrived += numberOfCubeBySpawn;
+        nTotalCubesShouldArrived += nCubeBySpawn;
     }
 
     //private void AddTeleport(LevelActionTeleport teleport)
@@ -97,14 +213,26 @@ public class LevelManager : BaseManager<LevelManager>
 
     private void CubeArrived(Cube cube)
     {
-        numberTotalOfCubeShouldArrived--;
+        nTotalCubesShouldArrived--;
+        DestroyCube(cube);
+
+        if (nTotalCubesShouldArrived == 0)
+        {
+            if (onAllCubesArrived != null) onAllCubesArrived();
+        }
+    }
+
+    public void DestroyCube(Cube cube)
+    {
         cube.OnDestroy();
         DestroyObject(cube.transform.gameObject);
+    }
 
-        if (numberTotalOfCubeShouldArrived == 0)
-        {
-            GameManager.manager.GameWin();
-        }
+    public void DestroyExclamation(VisualExclamation exclamation)
+    {
+        print("DESTROY EXCLAMATION");
+        exclamation.OnDestroy();
+        DestroyObject(exclamation.transform.gameObject);
     }
 
     //private void CubeTeleport(Cube cube)

@@ -1,0 +1,16 @@
+<ACTION_LIST>
+	<LEVEL name="Level1">
+		<ACTION name="Arrow_0" number="1"/>
+		<ACTION name="Arrow_90" number="1"/>
+		<ACTION name="Arrow_180" number="1"/>
+		<ACTION name="Arrow_270" number="1"/>
+		<ACTION name="Split" number="1"/>
+	</LEVEL>
+	<LEVEL name="Level2">
+		<ACTION name="Arrow_0" number="1"/>
+		<ACTION name="Arrow_90" number="1"/>
+		<ACTION name="Arrow_180" number="1"/>
+		<ACTION name="Arrow_270" number="1"/>
+		<ACTION name="Split" number="1"/>
+	</LEVEL>
+</ACTION_LIST>

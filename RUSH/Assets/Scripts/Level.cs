@@ -29,5 +29,10 @@ public class Level : MonoBehaviour {
         }
     }
 
-   
+    public int nRightArrow = 0;
+    public int nLeftArrow = 0;
+    public int nTopArrow = 0;
+    public int nBackArrow = 0;
+
+
 }
